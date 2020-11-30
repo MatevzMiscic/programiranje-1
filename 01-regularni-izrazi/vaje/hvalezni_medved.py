@@ -25,8 +25,14 @@ medved. Zvrhano zibelko sladkih hrušk mi je prinesel za en sam izdrt trn"."""
 # >>> find_words(test_text, 'de')
 # {'izdere', 'debel', 'oddide', 'začudeno'}
 ###############################################################################
+import re
 
+def find_words(text, pat):
+    patern = re.compile(r"\b(\S*" + pat + r"\S*)\b")
+    out = {find.group(1) for find in re.finditer(patern, text)}
+    return out
 
+print(find_words(test_text, 'de'))
 ###############################################################################
 # 2) Sestavite funkcijo [find_prefix], ki vrne množico vseh besed, ki se
 #    pojavijo v nizu in imajo dano predpono.
@@ -34,8 +40,12 @@ medved. Zvrhano zibelko sladkih hrušk mi je prinesel za en sam izdrt trn"."""
 # >>> find_prefix(test_text, 'zi')
 # {'zibala', 'zibel', 'zibelko'}
 ###############################################################################
+def find_prefix(text, pat):
+    patern = re.compile(r"\s(" + pat + r"\S*)\b")
+    out = {find.group(1) for find in re.finditer(patern, text)}
+    return out
 
-
+print(find_prefix(test_text, 'zi'))
 ###############################################################################
 # 3) Sestavite funkcijo [find_suffix], ki vrne množico vseh besed, ki se
 #    pojavijo v nizu in imajo dano pripono.
@@ -43,8 +53,12 @@ medved. Zvrhano zibelko sladkih hrušk mi je prinesel za en sam izdrt trn"."""
 # >>> find_suffix(test_text, 'la')
 # {'zibala', 'razveselila', 'prestrašila', 'šivala', 'opazila', 'tla'}
 ###############################################################################
+def find_suffix(text, pat):
+    patern = re.compile(r"(\S*" + pat + r")\b")
+    out = {find.group(1) for find in re.finditer(patern, text)}
+    return out
 
-
+print(find_suffix(test_text, 'la'))
 ###############################################################################
 # 4) Sestavite funkcijo [double_letters], ki sprejme niz in vrne množico vseh
 #    besed, ki vsebujejo podvojene črke.
@@ -52,3 +66,9 @@ medved. Zvrhano zibelko sladkih hrušk mi je prinesel za en sam izdrt trn"."""
 # >>> double_letters('A volunteer is worth twenty pressed men.')
 # {'volunteer', 'pressed'}
 ###############################################################################
+def double_letters(text):
+    patern = re.compile(r"\b(?P<word>\w*(?P<char>\w)(?P=char)\w*)\b")
+    out = {find.group("word") for find in re.finditer(patern, text)}
+    return out
+
+print(double_letters('A volunteer is worth twenty pressed men.'))
